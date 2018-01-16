@@ -1,20 +1,32 @@
 """
-No need to change anything here!
+The setup is similar to the prevous `Linear` node you wrote
+except you're now using NumPy arrays instead of python lists.
 
-If all goes well, this should work after you
-modify the Add class in miniflow.py.
+Update the Linear class in miniflow.py to work with
+numpy vectors (arrays) and matrices.
+
+Test your code here!
 """
 
+import numpy as np
 from miniflow import *
 
-x, y, z = Input(), Input(), Input()
+X, W, b = Input(), Input(), Input()
 
-f = Mul(x, y, z)
+f = Linear(X, W, b)
 
-feed_dict = {x: 4, y: 5, z: 10}
+X_ = np.array([[-1., -2.], [-1, -2]])
+W_ = np.array([[2., -3], [2., -3]])
+b_ = np.array([-3., -5])
+
+feed_dict = {X: X_, W: W_, b: b_}
 
 graph = topological_sort(feed_dict)
 output = forward_pass(f, graph)
 
-# should output 19
-print("{} * {} * {} = {} (according to miniflow)".format(feed_dict[x], feed_dict[y], feed_dict[z], output))
+"""
+Output should be:
+[[-9., 4.],
+[-9., 4.]]
+"""
+print(output)
