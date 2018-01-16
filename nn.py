@@ -11,9 +11,9 @@ build a network that solves the equation below?
 
 from miniflow import *
 
-x, y = Input(), Input()
+x, y, z = Input(), Input(), Input()
 
-f = Add(x, y)
+f = Add(x, y, z)
 
 feed_dict = {x: 10, y: 5}
 
