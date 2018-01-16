@@ -71,6 +71,15 @@ class Add(Node):
         for n in self.inbound_nodes:
             self.value += n.value
 
+class Mul(Node):
+    def __init__(self, *inputs):
+        Node.__init__(self, inputs)
+
+    def forward(self):
+        self.value = 1
+        for n in self.inbound_nodes:
+            self.value *= n.value
+
 def topological_sort(feed_dict):
     """
     Sort the nodes in topological order using Kahn's Algorithm.
