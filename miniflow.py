@@ -1,10 +1,10 @@
 """
-Bonus Challenge!
-
-Write your code in Add (scroll down).
+Write the Linear#forward method below!
 """
+import numpy as np
 
-class Node(object):
+
+class Node:
     def __init__(self, inbound_nodes=[]):
         # Nodes from which this Node receives values
         self.inbound_nodes = inbound_nodes
@@ -33,52 +33,41 @@ class Input(Node):
         # so no need to pass anything to the Node instantiator
         Node.__init__(self)
 
-    # NOTE: Input Node is the only Node where the value
-    # may be passed as an argument to forward().
-    #
-    # All other Node implementations should get the value
-    # of the previous nodes from self.inbound_nodes
-    #
-    # Example:
-    # val0 = self.inbound_nodes[0].value
+        # NOTE: Input Node is the only Node where the value
+        # may be passed as an argument to forward().
+        #
+        # All other Node implementations should get the value
+        # of the previous nodes from self.inbound_nodes
+        #
+        # Example:
+        # val0 = self.inbound_nodes[0].value
     def forward(self, value=None):
         # Overwrite the value if one is passed in.
         if value is not None:
             self.value = value
 
 
-"""
-Can you augment the Add class so that it accepts
-any number of nodes as input?
+class Linear(Node):
+    def __init__(self, inputs, weights, bias):
+        Node.__init__(self, [inputs, weights, bias])
 
-Hint: this may be useful:
-https://docs.python.org/3/tutorial/controlflow.html#unpacking-argument-lists
-"""
-class Add(Node):
-    # You may need to change this...
-    def __init__(self, *inputs):
-        Node.__init__(self, inputs)
+        # NOTE: The weights and bias properties here are not
+        # numbers, but rather references to other nodes.
+        # The weight and bias values are stored within the
+        # respective nodes.
 
     def forward(self):
         """
-        For reference, here's the old way from the last
-        quiz. You'll want to write code here.
+        Set self.value to the value of the linear function output.
+
+        Your code goes here!
         """
-        # x_value = self.inbound_nodes[0].value
-        # y_value = self.inbound_nodes[1].value
-        # self.value = x_value + y_value    
-        self.value = 0
-        for n in self.inbound_nodes:
-            self.value += n.value
+        inputs = np.array(self.inbound_nodes[0].value)
+        weights = np.array(self.inbound_nodes[1].value)
+        bias = self.inbound_nodes[2].value
 
-class Mul(Node):
-    def __init__(self, *inputs):
-        Node.__init__(self, inputs)
+        self.value = inputs.dot(weights) + bias
 
-    def forward(self):
-        self.value = 1
-        for n in self.inbound_nodes:
-            self.value *= n.value
 
 def topological_sort(feed_dict):
     """
